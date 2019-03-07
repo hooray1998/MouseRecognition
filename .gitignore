@@ -1,0 +1,14 @@
+.qmake.stash
+LinearDragger
+LinearDragger.pro.user
+Makefile
+line.origin.db
+main.o
+mainwindow.o
+moc_mainwindow.cpp
+moc_mainwindow.o
+moc_mylabel.cpp
+moc_mylabel.o
+moc_predefs.h
+mylabel.o
+pyFile/
