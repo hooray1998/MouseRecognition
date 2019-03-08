@@ -84,7 +84,7 @@ def classifyVector(inX, weights):
     else: return 0.0
 
 def colicTest(curclass):
-    frTrain = open("./4trainSet.txt"); frTest = open('./4testSet.txt')
+    frTrain = open("./5trainSet.txt"); frTest = open('./5testSet.txt')
     trainingSet = []; trainingLabels = []
     # testingSet = []; testingLabels = []
     for line in frTrain.readlines():
@@ -160,7 +160,7 @@ def colicTest(curclass):
     return errorRate
 
 def multiTest():
-    for cc in range(1,5):
+    for cc in range(1,6):
         numTests = 3; errorSum=0.0
         for k in range(numTests):
             errorSum += colicTest(cc)
