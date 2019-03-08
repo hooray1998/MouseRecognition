@@ -50,7 +50,13 @@ void myLabel::paintEvent(QPaintEvent *)
             for(int i=1;i<len;i++)
             {
                 //painter.drawLine(line.pnt[i-1],line.pnt[i]);
+                painter.setPen(QPen(Qt::white, s[0], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
                 painter.drawPoint(line.pnt[i]);
+            }
+            for(int i=0;i<line.cornerLen;i++)
+            {
+                //painter.setPen(QPen(Qt::red, s[4], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
+                painter.drawPoint(line.cornerArr[i]);
             }
         }
         else
@@ -88,6 +94,11 @@ void myLabel::paintEvent(QPaintEvent *)
                 painter.drawEllipse(QPoint(curx,cury),CursorRadius,CursorRadius);
             }
         }
+            for(int i=0;i<line.cornerLen;i++)
+            {
+                painter.setPen(QPen(Qt::red, s[4], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
+                painter.drawPoint(line.cornerArr[i]);
+            }
         painter.end();  //重绘结束;
 
 }
@@ -119,6 +130,8 @@ void myLabel::mouseReleaseEvent(QMouseEvent *event)
     Press = false;
     if(event->button()==Qt::LeftButton)
     {
+            line.addPoint(event->pos());
+            line.AddEnd();
             line.save();
             line.length = 0;
     }
