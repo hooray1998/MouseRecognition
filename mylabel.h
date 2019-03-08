@@ -23,7 +23,7 @@ class Line{
 public:
     QPoint pnt[10000];
     int length;
-    char curKey;
+    QString curKey;
 
     QPoint cornerArr[MAXCornerLen];
     int cornerLen;
@@ -34,8 +34,9 @@ public:
     bool end;
     QFile *file;
     QTextStream *in;
-    float weightArr[5][20];
+    float weightArr[4][20];
 
+    QString dirString;
     void init(){
             end = false;
             length =0;
@@ -45,87 +46,44 @@ public:
                 cornerArr[i].setX(0);
                 cornerArr[i].setY(0);
             }
-        //file = new QFile("line.origin.db");
-        read();
-    }
-    void read(){
-        file = new QFile("weight.5");
-
-        bool ok = file->open(QIODevice::ReadOnly|QIODevice::Text);
-        if(ok)
-        {
-            QTextStream in(file);
-            for(int l=0;l<5;l++)
-                for(int i=0;i<20;i++)
-                    in>>weightArr[l][i];
-            file->close();
-        }
     }
     void predect()
     {
-        float result[5];
-        int max=-1;
-        float maxValue=-999999;
-        for(int i=0;i<5;i++)
+        dirString.clear();
+        for(int i=1;i<cornerLen;i++)
         {
-            result[i] = i;
-            for(int j=0;j<10;j+=2)
-            {
-                result[i]+=weightArr[i][j]*stepArr[j].x();
-                result[i]+=weightArr[i][j+1]*stepArr[j].y();
-            }
-            if(result[i]>maxValue)
-            {
-                max = i;
-                maxValue = result[i];
-            }
-        }
-        switch (max) {
-        case 0:
-            curKey = '^';
-            break;
-        case 1:
-            curKey = 'V';
-            break;
-        case 2:
-            curKey = '<';
-            break;
-        case 3:
-            curKey = '>';
-            break;
-        case 4:
-            curKey = 'O';
-            break;
-        default:
-            break;
+            int dir=4;
+            QPoint temp = (cornerArr[i]-cornerArr[i-1]);
+            if(temp.x()<0)
+                dir-=3;
+            else if(temp.x()>0)
+                dir+=3;
+            if(temp.y()<0)
+                dir-=1;
+            else if(temp.y()>0)
+                dir+=1;
+            dirString.append('0'+dir);
         }
 
-    }
-    void save(){
-            bool ok = file->open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Append);
-            if(ok)
-            {
-                QTextStream out(file);
-                for(int i=0;i<20;i++)
-                    out<<stepArr[i].x()-stepArr[0].x()<<"\t"<<stepArr[i].y()-stepArr[0].y()<<"\t";
-                out<<curKey<<endl;
-                file->close();
-                /*
-                if(cornerLen>10)
-                    return;
-                QTextStream out(file);
-                for(int i=0;i<cornerLen;i++)
-                    out<<cornerArr[i].x()-cornerArr[0].x()<<"\t"<<cornerArr[i].y()-cornerArr[0].y()<<"\t";
-                for(int i=0;i<(10-cornerLen);i++)
-                    out<<"0\t0\t";
-                out<<curKey<<endl;
-                file->close();
-                */
-            }
-            else
-            {
-                QDBG<<"write file  error.";
-            }
+        //横线去噪
+        if(dirString=="0"||dirString=="1"||dirString=="2")
+            curKey = "左";
+        else if(dirString=="6"||dirString=="7"||dirString=="8")
+            curKey = "右";
+        else if(dirString.indexOf("282")>-1)
+            curKey = "S";
+        else if(dirString.indexOf("286")>-1)
+            curKey = "O";
+        else if(dirString=="28")
+            curKey = "<";
+        else if(dirString=="82")
+            curKey = ">";
+        else if(dirString=="68")
+            curKey = "^";
+        else if(dirString=="86")
+            curKey = "V";
+
+
 
     }
     void addPoint(QPoint p){
@@ -174,17 +132,6 @@ public:
     }
     void AddEnd(){
 
-
-        end = true;
-        int step = length/20;
-
-        for(int i=0;i<20;i++)
-        {
-            stepArr[i] = pnt[i*step];
-        }
-
-        /*
-        QDBG<<"start"<<cornerLen<<endl;
         int y_max=-1,y_min=88888;
         int x_max=-1,x_min=88888;
 
@@ -203,8 +150,8 @@ public:
         }
         //int unitx = (x_max-x_min)/NoiseSize;
         //int unity = (y_max-y_min)/NoiseSize;
-        int unitx = 30;
-        int unity = 30;
+        int unitx = 70;
+        int unity = 70;
         cornerArr[cornerLen++] = pnt[length-1];
         //去噪,记录噪点
         QPoint temp;
@@ -232,8 +179,8 @@ public:
                 cornerArr[i].setY(0);
             }
         }
-        QDBG<<"end"<<cornerLen<<endl;
-    */
+        //QDBG<<"end"<<cornerLen<<endl;
+
     }
 };
 class myLabel : public QLabel
@@ -243,9 +190,6 @@ public:
     explicit myLabel(QWidget*parent = 0);
 
     void judgeInside();
-    void setCurClass(char c){
-        line.curKey = c;
-    }
 private:
     QPainter painter;
     bool Press;

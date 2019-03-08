@@ -19,7 +19,3 @@ MainWindow::~MainWindow()
     qDebug()<<this->width()<<"windows"<<this->height();
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *e)
-{
-   ui->label_2->setCurClass(e->key());
-}

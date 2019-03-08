@@ -48,28 +48,21 @@ void myLabel::paintEvent(QPaintEvent *)
         if(RecordingLine)
         {
             painter.setFont(QFont(NULL,30));
-            painter.drawText(QRect(400,30,400,200), Qt::AlignCenter, QString("CurClass:\t%1").arg(line.curKey));
+            painter.drawText(QRect(700,10,500,60), Qt::AlignCenter, QString("%1").arg(line.dirString));
+            painter.setFont(QFont(NULL,90));
+            painter.drawText(QRect(400,10,300,120), Qt::AlignCenter, QString("%1").arg(line.curKey));
             for(int i=1;i<len;i++)
             {
                 //painter.drawLine(line.pnt[i-1],line.pnt[i]);
                 painter.setPen(QPen(Qt::white, s[0], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
                 painter.drawPoint(line.pnt[i]);
             }
-            //stepArr
-            if(line.end)
-            for(int i=0;i<20;i++)
-            {
-                painter.setPen(QPen(Qt::red, s[3], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
-                painter.drawPoint(line.stepArr[i]);
-            }
             //corner Point
-            /*
             for(int i=0;i<line.cornerLen;i++)
             {
-                //painter.setPen(QPen(Qt::red, s[4], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
+                painter.setPen(QPen(Qt::red, s[4], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
                 painter.drawPoint(line.cornerArr[i]);
             }
-            */
             painter.setPen(QPen(Qt::white, s[0], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
             painter.drawEllipse(QPoint(curx,cury),20,20);
         }
