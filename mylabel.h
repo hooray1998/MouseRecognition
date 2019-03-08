@@ -16,7 +16,7 @@
 #include <QTextStream>
 
 #define QDBG qDebug()
-#define MAXCornerLen 30
+#define MAXCornerLen 100
 #define NoiseSize 10    //十分之一的长或宽
 
 class Line{
@@ -47,8 +47,8 @@ public:
             if(ok)
             {
                 QTextStream out(file);
-                for(int i=0;i<length;i++)
-                    out<<pnt[i].x()<<" "<<pnt[i].y()<<" ";
+                for(int i=0;i<cornerLen;i++)
+                    out<<cornerArr[i].x()-cornerArr[0].x()<<" "<<cornerArr[i].y()-cornerArr[0].y()<<" ";
                 out<<endl;
                 file->close();
             }
@@ -70,22 +70,18 @@ public:
             bool corner = false;
             if(curDir.x()>=0&&preDir.x()<0)
             {
-                QDBG<<"111";
                 corner = true;
             }
             else if(curDir.x()<0&&preDir.x()>=0)
             {
-                QDBG<<"222";
                 corner = true;
             }
             else if(curDir.y()>=0&&preDir.y()<0)
             {
-                QDBG<<"333";
                 corner = true;
             }
             else if(curDir.y()<0&&preDir.y()>=0)
             {
-                QDBG<<"444";
                 corner = true;
             }
             if(corner)
@@ -107,6 +103,8 @@ public:
         }
     }
     void AddEnd(){
+
+        QDBG<<"start"<<cornerLen<<endl;
         int y_max=-1,y_min=88888;
         int x_max=-1,x_min=88888;
 
@@ -127,6 +125,7 @@ public:
         //int unity = (y_max-y_min)/NoiseSize;
         int unitx = 30;
         int unity = 30;
+        cornerArr[cornerLen++] = pnt[length-1];
         //去噪,记录噪点
         QPoint temp;
         for(int i=1;i<cornerLen;i++)
@@ -153,7 +152,7 @@ public:
                 cornerArr[i].setY(0);
             }
         }
-        cornerArr[cornerLen++] = pnt[length-1];
+        QDBG<<"end"<<cornerLen<<endl;
     }
 };
 class myLabel : public QLabel

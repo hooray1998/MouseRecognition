@@ -12,3 +12,4 @@ moc_mylabel.o
 moc_predefs.h
 mylabel.o
 pyFile/
+line.origin.db
