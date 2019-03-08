@@ -88,14 +88,11 @@ public:
                 QDBG<<"444";
                 corner = true;
             }
-        int unitx = 30;
-        int unity = 30;
             if(corner)
-            if(abs(curDir.x())>unitx&&abs(curDir.y())>unity)
             {
                 cornerArr[cornerLen++] = pnt[length-2];
-                preCornerPoint = pnt[length-2];
             }
+            preCornerPoint = p;
             preDir = curDir;
         }
         else if(length==1)
@@ -107,7 +104,6 @@ public:
         {
             preDir = p - preCornerPoint;
             cornerArr[cornerLen++] = pnt[length-2];
-                preCornerPoint = pnt[length-2];
         }
     }
     void AddEnd(){
