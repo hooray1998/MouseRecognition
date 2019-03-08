@@ -47,6 +47,8 @@ void myLabel::paintEvent(QPaintEvent *)
         int len = line.length;
         if(RecordingLine)
         {
+            painter.setFont(QFont(NULL,30));
+            painter.drawText(QRect(400,30,400,200), Qt::AlignCenter, QString("CurClass:\t%1").arg(line.curKey));
             for(int i=1;i<len;i++)
             {
                 //painter.drawLine(line.pnt[i-1],line.pnt[i]);
@@ -58,6 +60,7 @@ void myLabel::paintEvent(QPaintEvent *)
                 //painter.setPen(QPen(Qt::red, s[4], Qt::SolidLine, Qt::RoundCap));    //设置画笔;
                 painter.drawPoint(line.cornerArr[i]);
             }
+                painter.drawEllipse(QPoint(curx,cury),20,20);
         }
         else
         {
@@ -161,3 +164,4 @@ void myLabel::judgeInside()
             inside[i] = false;
     }
 }
+

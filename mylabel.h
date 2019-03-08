@@ -23,6 +23,7 @@ class Line{
 public:
     QPoint pnt[10000];
     int length;
+    char curKey;
 
     QPoint cornerArr[MAXCornerLen];
     int cornerLen;
@@ -46,10 +47,14 @@ public:
             bool ok = file->open(QIODevice::WriteOnly|QIODevice::Text|QIODevice::Append);
             if(ok)
             {
+                if(cornerLen>10)
+                    return;
                 QTextStream out(file);
                 for(int i=0;i<cornerLen;i++)
-                    out<<cornerArr[i].x()-cornerArr[0].x()<<" "<<cornerArr[i].y()-cornerArr[0].y()<<" ";
-                out<<endl;
+                    out<<cornerArr[i].x()-cornerArr[0].x()<<"\t"<<cornerArr[i].y()-cornerArr[0].y()<<"\t";
+                for(int i=0;i<(10-cornerLen);i++)
+                    out<<"0\t0\t";
+                out<<curKey<<endl;
                 file->close();
             }
             else
@@ -162,6 +167,9 @@ public:
     explicit myLabel(QWidget*parent = 0);
 
     void judgeInside();
+    void setCurClass(char c){
+        line.curKey = c;
+    }
 private:
     QPainter painter;
     bool Press;
