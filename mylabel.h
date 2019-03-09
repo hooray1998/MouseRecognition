@@ -70,10 +70,22 @@ public:
             curKey = "左";
         else if(dirString=="6"||dirString=="7"||dirString=="8")
             curKey = "右";
+        else if(dirString=="6868")
+            curKey = "M";
+        else if(dirString=="8686")
+            curKey = "W";
+        else if(dirString=="6826"||dirString=="6827"||dirString=="6828")
+            curKey = "2";
+        else if(dirString=="626"||dirString=="627"||dirString=="628"||
+                dirString=="726"||dirString=="727"||dirString=="728"||
+                dirString=="826"||dirString=="827"||dirString=="828")
+            curKey = "Z";
         else if(dirString.indexOf("282")>-1)
             curKey = "S";
         else if(dirString.indexOf("286")>-1)
-            curKey = "O";
+            curKey = "逆O";
+        else if(dirString.indexOf("820")>-1)
+            curKey = "顺O";
         else if(dirString=="28")
             curKey = "<";
         else if(dirString=="82")
@@ -82,6 +94,8 @@ public:
             curKey = "^";
         else if(dirString=="86")
             curKey = "V";
+        else
+            curKey = " ";
 
 
 
@@ -150,8 +164,8 @@ public:
         }
         //int unitx = (x_max-x_min)/NoiseSize;
         //int unity = (y_max-y_min)/NoiseSize;
-        int unitx = 70;
-        int unity = 70;
+        int unitx = 50;
+        int unity = 50;
         cornerArr[cornerLen++] = pnt[length-1];
         //去噪,记录噪点
         QPoint temp;
@@ -179,8 +193,30 @@ public:
                 cornerArr[i].setY(0);
             }
         }
-        //QDBG<<"end"<<cornerLen<<endl;
-
+        //去掉同一条线的
+        int i;
+        for(i=1;i<(cornerLen-1);i++)
+        {
+            QPoint temp = QPoint(cornerArr[i]-cornerArr[i-1]);
+            QPoint temp2 = QPoint(cornerArr[i+1]-cornerArr[i]);
+            if(abs(temp.x())<unitx&&abs(temp2.x())<unitx)
+                valid[i] = false;
+            else if(abs(temp.y())<unity&&abs(temp2.y())<unity)
+                valid[i] = false;
+            else
+                valid[i] = true;
+        }
+        valid[i] = true;//增加最后一个点
+        //删除噪点
+        oldLen = cornerLen;
+        cornerLen = 1;
+        for(int i=1;i<oldLen;i++)
+        {
+            if(valid[i])
+            {
+                cornerArr[cornerLen++] = cornerArr[i];
+            }
+        }
     }
 };
 class myLabel : public QLabel
