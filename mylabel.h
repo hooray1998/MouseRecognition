@@ -82,9 +82,9 @@ public:
         else if(dirString.indexOf("282")>-1)
             curKey = "S";
         else if(dirString.indexOf("286")>-1)
-            curKey = "逆O";
+            curKey = "O";
         else if(dirString.indexOf("820")>-1)
-            curKey = "顺O";
+            curKey = "O";//顺
         else if(dirString=="28")
             curKey = "<";
         else if(dirString=="82")
@@ -223,11 +223,11 @@ public:
     QPoint point;
     bool inside;
     int label;
-    int shape;
+    QString shape;
     MyPoint(){
         inside = false;
         label = 0;
-        shape = 0;
+        shape = "dot";
         point = QPoint(rand()%1900,rand()%1000);
     }
 };
@@ -249,6 +249,8 @@ private:
     MyPoint allPoint[MAX_POINT_NUMBER];
     int insideList[30];
     int insideNumber;
+    int curCheck;
+    bool check;
     int CursorRadius;
 
     bool RecordingLine;
