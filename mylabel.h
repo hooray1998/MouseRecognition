@@ -16,8 +16,9 @@
 #include <QTextStream>
 
 #define QDBG qDebug()
-#define MAXCornerLen 100
+#define MAXCornerLen 1000
 #define NoiseSize 10    //十分之一的长或宽
+#define MAX_POINT_NUMBER 1000
 
 class Line{
 public:
@@ -33,8 +34,6 @@ public:
     QPoint stepArr[20];
     bool end;
     QFile *file;
-    QTextStream *in;
-    float weightArr[4][20];
 
     QString dirString;
     void init(){
@@ -219,6 +218,20 @@ public:
         }
     }
 };
+class MyPoint{
+public:
+    QPoint point;
+    bool inside;
+    int label;
+    int shape;
+    MyPoint(){
+        inside = false;
+        label = 0;
+        shape = 0;
+        point = QPoint(rand()%1900,rand()%1000);
+    }
+};
+
 class myLabel : public QLabel
 {
     Q_OBJECT
@@ -226,15 +239,17 @@ public:
     explicit myLabel(QWidget*parent = 0);
 
     void judgeInside();
+    int computeDistance(int index);
 private:
     QPainter painter;
     bool Press;
     Line line;
     int lineNumber;
     int curx,cury;
-    QPoint allPoint[1000];
-    bool inside[1000];
+    MyPoint allPoint[MAX_POINT_NUMBER];
+    int insideList[30];
     int insideNumber;
+    int CursorRadius;
 
     bool RecordingLine;
 protected:
