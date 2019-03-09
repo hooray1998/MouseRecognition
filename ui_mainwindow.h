@@ -16,7 +16,6 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QWidget>
 #include <mylabel.h>
 
@@ -28,7 +27,6 @@ public:
     QWidget *centralWidget;
     QHBoxLayout *horizontalLayout;
     myLabel *label_2;
-    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -47,9 +45,6 @@ public:
         horizontalLayout->addWidget(label_2);
 
         MainWindow->setCentralWidget(centralWidget);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QStringLiteral("statusBar"));
-        MainWindow->setStatusBar(statusBar);
 
         retranslateUi(MainWindow);
 

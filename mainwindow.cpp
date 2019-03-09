@@ -18,3 +18,4 @@ MainWindow::~MainWindow()
     delete ui;
     qDebug()<<this->width()<<"windows"<<this->height();
 }
+
